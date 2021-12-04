@@ -8,7 +8,7 @@ async function main() {
     const Token = await ethers.getContractFactory("Token");
     const token = await Token.deploy("MansaaToken", "MAA", ethers.utils.parseEther("1000000000"));
   
-    console.log("Token infos:", token.address, token.name(), token.symbol());
+    console.log("Token infos:", token.address, await token.name(), await token.symbol());
     const ownerBalance = await token.balanceOf(deployer.address);
     console.log(ethers.utils.formatUnits(ownerBalance, 18));
   }

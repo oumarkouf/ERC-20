@@ -43,7 +43,7 @@ describe("Token", function () {
 
       // Transfer 50 tokens from addr1 to addr2
       // We use .connect(signer) to send a transaction from another account
-      await token.connect(addr1).transfer(addr2.address, 50);
+      await token.connect(addr1.address).transfer(addr2.address, 50);
       const addr2Balance = await token.balanceOf(addr2.address);
       expect(addr2Balance).to.equal(50);
     });
