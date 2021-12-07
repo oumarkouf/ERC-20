@@ -43,6 +43,20 @@ const config: HardhatUserConfig = {
       accounts: 
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    bsc: {
+      url: process.env.BSC_URL,
+      chainId: 56,
+      gasPrice: 20000000000,
+      accounts: 
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
+    ftmtestnet: {
+      url: process.env.FTM_TESTNET_URL,
+      chainId: 4002,
+      gasPrice: 20000000000,
+      accounts: 
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,

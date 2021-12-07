@@ -1,14 +1,16 @@
 import { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
+import { BigNumber } from "@ethersproject/bignumber";
 import { expect } from "chai";
 import { ethers } from "hardhat";
+import { any } from "hardhat/internal/core/params/argumentTypes";
 import { Token } from "../typechain";
 
 describe("Token", function () {
   let Token;
   let token: Token;
   let owner: { address: string; };
-  let addr1: { address: string; };
+  let addr1: any;
   let addr2: { address: string; };
   let addrs;
 
@@ -43,18 +45,18 @@ describe("Token", function () {
 
       // Transfer 50 tokens from addr1 to addr2
       // We use .connect(signer) to send a transaction from another account
-      await token.connect(addr1.address).transfer(addr2.address, 50);
+      await token.connect(addr1).transfer(addr2.address, 50);
       const addr2Balance = await token.balanceOf(addr2.address);
       expect(addr2Balance).to.equal(50);
     });
 
-/*     it("Should fail if sender doesn’t have enough tokens", async function () {
+    it("Should fail if sender doesn’t have enough tokens", async function () {
       const initialOwnerBalance = await token.balanceOf(owner.address);
 
       // Try to send 1 token from addr1 (0 tokens) to owner (1000000 tokens).
       // `require` will evaluate false and revert the transaction.
       await expect(
-        token.connect(addr1.address).transfer(owner.address, 1)
+        token.connect(addr1).transfer(owner.address, 1)
       ).to.be.revertedWith("Not enough tokens");
 
       // Owner balance shouldn't have changed.
@@ -81,6 +83,6 @@ describe("Token", function () {
 
       const addr2Balance = await token.balanceOf(addr2.address);
       expect(addr2Balance).to.equal(50);
-    }); */
+    });
   });
 });
