@@ -2,6 +2,8 @@ import * as dotenv from "dotenv";
 import { HardhatUserConfig, task } from "hardhat/config";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
+import "@openzeppelin/hardhat-upgrades";
+import "@openzeppelin/hardhat-defender";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
@@ -27,9 +29,19 @@ task("accounts", "👩🕵👨🙋👷 Prints the list of accounts", async (task
 const config: HardhatUserConfig = {
   solidity: "0.8.10",  
   defaultNetwork: "localhost",
+  defender: {
+    apiKey: process.env.DEFENDER_TEAM_API_KEY !== undefined ? process.env.DEFENDER_TEAM_API_KEY : "",
+    apiSecret: process.env.DEFENDER_TEAM_API_SECRET_KEY !== undefined ? process.env.DEFENDER_TEAM_API_SECRET_KEY : ""
+  },
   networks: {
     localhost: {
+      chainId: 31337,
       url: "http://127.0.0.1:8545"
+    },
+    rinkeby: {
+      url: "https://eth-rinkeby.alchemyapi.io/v2/9FyK5SOdqNsh1wj_ELD5_3UmST-SEbtU",
+      accounts: 
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
