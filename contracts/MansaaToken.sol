@@ -1,15 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PausableUpgradeable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-contract MansaaToken is ERC20Upgradeable, OwnableUpgradeable, ERC20BurnableUpgradeable  {
+contract MansaaToken is Ownable, ERC20, ERC20Burnable {
 
-    function initialize(string memory _name, string memory _symbol, uint _totalSupply) public initializer {
-        __ERC20_init(_name,_symbol);
+    constructor(string memory _name, string memory _symbol, uint _totalSupply) ERC20(_name, _symbol) {
         _mint(_msgSender(),_totalSupply);
     }
 }

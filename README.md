@@ -20,10 +20,11 @@ npx prettier '**/*.{json,sol,md}' --write
 npx solhint 'contracts/**/*.sol'
 npx solhint 'contracts/**/*.sol' --fix
 ```
-* Old Contract : 
+* Contract : 
 
 https://testnet.bscscan.com/token/0xf849b12cdc683fcbdb1b58da11203814775a1d17
 https://testnet.ftmscan.com/address/0x699889290f4fd07cbe4c7758bc5b051144bceb27#code
+https://rinkeby.etherscan.io/address/0xD4d994eE6f90AaB39E15728323B74076c7632598
 
 * Upgradeable Contract:
 

@@ -27,7 +27,15 @@ task("accounts", "👩🕵👨🙋👷 Prints the list of accounts", async (task
 // Go to https://hardhat.org/config/ to learn more
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.10",  
+  solidity: {
+    version: "0.8.10",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   defaultNetwork: "localhost",
   defender: {
     apiKey: process.env.DEFENDER_TEAM_API_KEY !== undefined ? process.env.DEFENDER_TEAM_API_KEY : "",

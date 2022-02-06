@@ -23,8 +23,7 @@ describe("Token", function () {
     // To deploy our contract, we just have to call Token.deploy() and await
     // for it to be deployed(), which happens once its transaction has been
     // mined.
-    //token = await Token.deploy("TestToken", "TST", ethers.utils.parseEther("1000000"));
-    token = await upgrades.deployProxy(Token, ['TestToken', 'TST', ethers.utils.parseEther("1000000")], { initializer: 'initialize' });
+    token = await Token.deploy("TestToken", "TST", ethers.utils.parseEther("1000000"));
   });
 
   describe("Token contract", function () {
@@ -41,7 +40,7 @@ describe("Token", function () {
   describe("Token TransferOwnership", function () {
     it("Should transferOwnership to new owner", async function () {
       const prevOwner = await token.owner(); 
-      await upgrades.admin.transferProxyAdminOwnership(addr1.address); 
+      await token.transferOwnership(addr1.address); 
       const newOwner = await token.owner();
       expect(prevOwner).to.not.equal(newOwner);
       });
@@ -68,7 +67,7 @@ describe("Token", function () {
       // `require` will evaluate false and revert the transaction.
       await expect(
         token.connect(addr1).transfer(owner.address, 1)
-      ).to.be.revertedWith("Not enough tokens");
+      ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
 
       // Owner balance shouldn't have changed.
       expect(await token.balanceOf(owner.address)).to.equal(
