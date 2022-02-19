@@ -12,6 +12,11 @@ async function main() {
     const ownerBalance = await token.balanceOf(deployer.address);
     console.log(ethers.utils.formatUnits(ownerBalance, 18));
 
+    const VestingContract = await ethers.getContractFactory("VestingContract");
+    const vestingContract = await VestingContract.deploy(token.address);
+
+    console.log("VestingContract informations", vestingContract.address);
+
   }
   
   main()

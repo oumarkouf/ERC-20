@@ -23,7 +23,7 @@ describe("Token", function () {
     // To deploy our contract, we just have to call Token.deploy() and await
     // for it to be deployed(), which happens once its transaction has been
     // mined.
-    token = await Token.deploy("TestToken", "TST", ethers.utils.parseEther("1000000"));
+    token = await Token.deploy("TestToken", "TST", ethers.utils.parseEther("1000000000"));
   });
 
   describe("Token contract", function () {
@@ -77,22 +77,22 @@ describe("Token", function () {
 
     it("Should update balances after transfers", async function () {
       const initialOwnerBalance = await token.balanceOf(owner.address);
-
+      console.log(Number(initialOwnerBalance));
       // Transfer 100 tokens from owner to addr1.
-      await token.transfer(addr1.address, 100);
+      await token.transfer(addr1.address,100);
 
       // Transfer another 50 tokens from owner to addr2.
-      await token.transfer(addr2.address, 50);
+      await token.transfer(addr2.address,);
 
       // Check balances.
       const finalOwnerBalance = await token.balanceOf(owner.address);
-      expect(finalOwnerBalance).to.equal(initialOwnerBalance.toNumber() - 150);
+      expect(finalOwnerBalance).to.equal(initialOwnerBalance - 3000000000000000000);
 
       const addr1Balance = await token.balanceOf(addr1.address);
-      expect(addr1Balance).to.equal(100);
+      expect(addr1Balance).to.equal(1000000000000000000);
 
       const addr2Balance = await token.balanceOf(addr2.address);
-      expect(addr2Balance).to.equal(50);
+      expect(addr2Balance).to.equal(2000000000000000000);
     });
   });
 });

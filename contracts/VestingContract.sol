@@ -12,8 +12,6 @@ contract VestingContract is ReentrancyGuard, Ownable {
     event Paused(address account);
     event Unpaused(address account);
 
-    event AccessControlsUpdate(address _old, address _new);
-
     event ScheduleCreated(
         address indexed _beneficiary,
         uint256 indexed _amount,
@@ -48,7 +46,7 @@ contract VestingContract is ReentrancyGuard, Ownable {
     mapping(address => Schedule) public vestingSchedule;
 
     // The Mansaa token contract
-    IERC20 public token;
+    IERC20 private token;
 
     uint256 public constant PERIOD_ONE_DAY_IN_SECONDS = 1 days;
 
@@ -59,13 +57,16 @@ contract VestingContract is ReentrancyGuard, Ownable {
         _;
     }
 
-    constructor(IERC20 _token) public {
-        require(address(_token) != address(0));
-        token = _token;
+    /**
+     * @dev Creates a vesting contract.
+     * @param token_ address of the ERC20 token contract
+     */
+    constructor(address token_) {
+        require(token_ != address(0x0));
+        token = IERC20(token_);
     }
 
-    function createVestingSchedule(address _beneficiary, uint256 _amount, uint256 _start, uint256 _durationInDays, uint256 _cliffDurationInDays) external {
-        //require(accessControls.hasAdminRole(_msgSender()), "VestingContract.createVestingSchedule: Only admin");
+    function createVestingSchedule(address _beneficiary, uint256 _amount, uint256 _start, uint256 _durationInDays, uint256 _cliffDurationInDays) external onlyOwner {
         require(_beneficiary != address(0), "VestingContract.createVestingSchedule: Beneficiary cannot be empty");
         require(_amount > 0, "VestingContract.createVestingSchedule: Amount cannot be empty");
         require(_durationInDays > 0, "VestingContract.createVestingSchedule: Duration cannot be empty");
@@ -113,15 +114,13 @@ contract VestingContract is ReentrancyGuard, Ownable {
         emit DrawDown(msg.sender, amount, _getNow());
     }
 
-    function pause() external {
-        //require(accessControls.hasAdminRole(_msgSender()), "VestingContract.pause: Only admin");
+    function pause() external onlyOwner {
 
         paused = true;
         emit Paused(msg.sender);
     }
 
-    function unpause() external {
-        //require(accessControls.hasAdminRole(_msgSender()), "VestingContract.unpause: Only admin");
+    function unpause() external onlyOwner {
 
         paused = false;
         emit Unpaused(msg.sender);
